@@ -1,3 +1,4 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:hexa/hexa.dart';
 import 'package:ivy/ivy.dart';
@@ -15,6 +16,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     initializeHexaMappers();
     initializeIvyMappers();
+
+    print(MapperContainer.globals.getAll());
 
     final exampleClass = ExampleClass(
       hexaColor: HexaColor.bzColorBrandAccentColdBackground,

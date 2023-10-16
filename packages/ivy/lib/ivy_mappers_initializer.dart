@@ -4,6 +4,6 @@ import 'base_color_token_mapper.dart';
 import 'ivy.init.dart';
 
 void initializeIvyMappers() {
-  MapperContainer.globals.use(const IvyBaseColorTokenMapper());
+  MapperContainer.globals.use(const BaseColorTokenMapper());
   initializeMappers();
 }
