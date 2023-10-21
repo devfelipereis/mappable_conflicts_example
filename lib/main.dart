@@ -1,43 +1,35 @@
+import 'package:base/base.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:flutter/material.dart';
-import 'package:hexa/hexa.dart';
-import 'package:ivy/ivy.dart';
+import 'package:hexa/hexa.dart' as hexa;
+import 'package:ivy/ivy.dart' as ivy;
+import 'package:mappable_conflicts_example/base_color_token_mapper.dart';
 
 import 'example_class.dart';
 
 void main() {
-  runApp(const MainApp());
+  initBaseTokenMapper();
+
+  print(MapperContainer.globals.getAll());
+
+  final exampleClass = ExampleClass(
+    hexaColor: hexa.HexaColor.bzColorBrandAccentColdBackground,
+    ivyColor: ivy.IvyColor.ivyColorBrandAccentColdBackground,
+  );
+
+  final classToJson = exampleClass.toJson();
+  print(classToJson);
+
+  final classFromJson = ExampleClassMapper.fromJson(
+    '{"hexaColor":"bz-color-brand-accent-cold-background","ivyColor":"ivy-color-brand-accent-cold-background"}',
+  );
+  print(classFromJson);
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+void initBaseTokenMapper() {
+  var tokens = Map.fromEntries(<BaseColorToken>[
+    ...ivy.IvyColor.values,
+    ...hexa.HexaColor.values,
+  ].map((t) => MapEntry(t.token, t)));
 
-  @override
-  Widget build(BuildContext context) {
-    initializeHexaMappers();
-    initializeIvyMappers();
-
-    print(MapperContainer.globals.getAll());
-
-    final exampleClass = ExampleClass(
-      hexaColor: HexaColor.bzColorBrandAccentColdBackground,
-      ivyColor: IvyColor.ivyColorBrandAccentColdBackground,
-    );
-
-    final classToJson = exampleClass.toJson();
-    print(classToJson);
-
-    final classFromJson = ExampleClassMapper.fromJson(
-      '{"hexaColor":"bz-color-brand-accent-cold-background","ivyColor":"ivy-color-brand-accent-cold-background"}',
-    );
-    print(classFromJson);
-
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+  MapperContainer.globals.use(BaseColorTokenMapper(tokens));
 }
